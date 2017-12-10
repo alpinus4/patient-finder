@@ -1,0 +1,79 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="patient-demographics">
+
+  <template>
+
+    <style>
+      /* shadow DOM styles go here */
+      :host {
+        display: inline-block;
+      }
+
+      :host .label{
+        font-size: var(--patient-demographics-font-size , 13pt);
+        background: var(--patient-demographics-label-background , rgb(255, 255, 255));
+        border-color: var(--patient-demographics-label-border-color , rgb(0, 0, 0));
+        border-style: solid;
+        border-width: var(--patient-demographics-label-border-width , 2px);
+        padding: 20px;
+        display: inline-block;
+      }
+
+
+      :host #patient_demographics{
+        width: 100%;
+      }
+
+      :host #name{
+        width: 91%;
+      }
+
+      :host #sex{
+        width: 43%
+      }
+
+    </style>
+
+
+    <!-- shadow DOM goes here -->
+  <div id="patient_demographics">
+    <div class="label" id="name">Name: &nbsp;&nbsp;&nbsp;&nbsp; {{name}} </div></br></br>
+    <div class="label" id="age">Age: &nbsp;&nbsp; {{age}} </div> &nbsp;&nbsp; <div class="label" id="dateOfBirth">Date of birth: &nbsp;&nbsp; {{dateOfBirth}} </div></br></br>
+    <div class="label" id="gender">Gender: &nbsp;&nbsp;&nbsp;&nbsp; {{gender}} </div>  &nbsp;&nbsp;<div class="label" id="sex">Sex: &nbsp;&nbsp;&nbsp;&nbsp; {{sex}} </div></br></br>
+  </div>
+  </template>
+
+  <script>
+    class PatientDemographics extends Polymer.Element {
+      static get is() {
+        return 'patient-demographics';
+      }
+      static get properties() {
+        return {
+          name: {
+            type: String
+          },
+          age: {
+            type: String
+          },
+          dateOfBirth: {
+            type: String
+          },
+          gender: {
+            type: String
+          },
+          sex: {
+            type: String
+          }
+        }
+      }
+      constructor() {
+        super();
+      }
+    }
+    customElements.define(PatientDemographics.is, PatientDemographics);
+  </script>
+
+</dom-module>
