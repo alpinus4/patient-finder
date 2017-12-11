@@ -1,0 +1,12 @@
+[
+  {
+    "name":"Name",
+    "type":"string",
+    "size":20
+  },
+  {
+    "name":"Age",
+    "type":"number",
+    "size":20
+  }
+]
