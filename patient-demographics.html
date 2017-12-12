@@ -1,5 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="https://polygit.org/polymer+v2.0.0/shadycss+webcomponents+1.0.0/components/iron-ajax/iron-ajax.html">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 <dom-module id="patient-demographics">
 
@@ -11,32 +12,26 @@
         display: inline-block;
       }
 
-      :host .label{
-        font-size: var(--patient-demographics-font-size , 13pt);
-        background: var(--patient-demographics-label-background , rgb(255, 255, 255));
-        border-color: var(--patient-demographics-label-border-color , rgb(0, 0, 0));
-        border-style: solid;
-        border-width: var(--patient-demographics-label-border-width , 2px);
-        padding: 20px;
-        display: inline-block;
-      }
-
-
       :host #patient_demographics{
         width: 100%;
+        font-size: var(--patient-demographics-font-size , 25pt);
+        color: var(--patient-demographics-font-color , rgb(24, 24, 24));
+        background: var(--patient-demographics-label-background , rgb(255, 255, 255));
+        padding: 20px;
+        font-family: 'Roboto', sans-serif;
       }
 
       :host #name{
         width: 91%;
+        font-size: var(--patient-demographics-font-size-name , 40pt);
+        text-decoration: underline;
+        text-decoration-color: var(--patient-demographics-underline-color, rgb(0, 0, 0));
       }
 
-      :host #sex{
-        width: 43%
-      }
 
     </style>
 
-    <template is="dom-repeat" items="[[patient]]">
+    <!--<template is="dom-repeat" items="[[patient]]">
             <span>{{item.name}}</span>
         </template>
 
@@ -46,13 +41,11 @@
         params='{"type":"all"}'
         handle-as="json"
         on-response="handleResponse"
-        method="GET"></iron-ajax>
+        method="GET"></iron-ajax>-->
 
     <!-- shadow DOM goes here -->
   <div id="patient_demographics">
-    <div class="label" id="name">Name: &nbsp;&nbsp;&nbsp;&nbsp; {{name}} </div></br></br>
-    <div class="label" id="age">Age: &nbsp;&nbsp; {{age}} </div> &nbsp;&nbsp; <div class="label" id="dateOfBirth">Date of birth: &nbsp;&nbsp; {{dateOfBirth}} </div></br></br>
-    <div class="label" id="gender">Gender: &nbsp;&nbsp;&nbsp;&nbsp; {{gender}} </div>  &nbsp;&nbsp;<div class="label" id="sex">Sex: &nbsp;&nbsp;&nbsp;&nbsp; {{sex}} </div></br></br>
+  <div id="name">{{firstName}}&nbsp;{{middleName}}&nbsp;{{lastName}}</div> {{age}} year(s) old &nbsp;({{dateOfBirth}})&nbsp; {{gender}} </br></br>
   </div>
   </template>
 
@@ -63,7 +56,13 @@
       }
       static get properties() {
         return {
-          name: {
+          firstName: {
+            type: String
+          },
+          middleName: {
+            type: String
+          },
+          lastName: {
             type: String
           },
           age: {
