@@ -34,7 +34,8 @@
 
     <!-- shadow DOM goes here -->
   <div id="patient_demographics">
-  <div id="name">{{firstName}}&nbsp;{{middleName}}&nbsp;{{lastName}}</div> {{age}} year(s) old &nbsp;({{dateOfBirth}})&nbsp; {{gender}} </br></br>
+  <div id="name">{{firstName}}&nbsp;{{middleName}}&nbsp;{{lastName}}</div> {{age}} year(s) old
+  &nbsp;(<span id="birthdate">{{dateOfBirth}}</span>)&nbsp; <span id="gender">{{gender}}</span> </br></br>
   </div>
   </template>
 
