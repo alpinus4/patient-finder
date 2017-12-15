@@ -31,17 +31,6 @@
 
     </style>
 
-    <template is="dom-repeat" items="[[patient]]">
-            <span>{{item.results.uuid}}</span>
-        </template>
-
-        <iron-ajax
-        auto
-        url="http://localhost:8080/lh-toolkit/ws/rest/v1/patient"
-        params='{"q":"James"}'
-        handle-as="json"
-        on-response="handleResponse"
-        method="GET"></iron-ajax>
 
     <!-- shadow DOM goes here -->
   <div id="patient_demographics">
@@ -73,21 +62,13 @@
           },
           gender: {
             type: String
-          },
-          sex: {
-            type: String
-          },
-          patient: {
-            type: Array
           }
         }
       }
       constructor() {
         super();
       }
-      handleResponse(data){
-        this.patient = data.detail.response;
-      }
+
     }
     customElements.define(PatientDemographics.is, PatientDemographics);
   </script>
