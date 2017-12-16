@@ -42,7 +42,7 @@
   <script>
     class PatientDemographics extends Polymer.Element {
       static get is() {
-        return 'patient-demographics';
+          return 'patient-demographics';
       }
       static get properties() {
         return {
@@ -59,19 +59,56 @@
             type: String
           },
           dateOfBirth: {
-            type: String
+            type: String,
+            observer:'_correctDate'
           },
           gender: {
-            type: String
+            type: String,
+            observer:'_correctGender'
+          },
+          genderObserverCount:{
+            type:Number
+          },
+          dateOfBirthObserverCount:{
+            type:Number
           }
         }
       }
       constructor() {
         super();
+        this.genderObserverCount=0;
+        this.dateOfBirthObserverCount=0;
       }
 
-      correct(){
-        this.dateOfBirth=this.dateOfBirth.substring(0,10);
+      _correctDate(){
+        if(this.dateOfBirthObserverCount<1){
+          this.dateOfBirthObserverCount++;
+
+          var date=new Date(this.dateOfBirth);
+
+          //part of code from https://stackoverflow.com/questions/3605214/javascript-add-leading-zeroes-to-date
+          var myDateString;
+          date.setDate(date.getDate()+0);
+          myDateString = ('0' + date.getDate()).slice(-2) + '/'
+               + ('0' + (date.getMonth()+1)).slice(-2) + '/'
+               + date.getFullYear();
+
+          this.dateOfBirth=myDateString;
+        }
+      }
+
+
+      _correctGender(){
+        if(this.genderObserverCount<1){
+          this.genderObserverCount++;
+          if(this.gender=="M"){
+            this.gender="Male";
+          }
+
+          if(this.gender=="F"){
+            this.gender="Female";
+          }
+      }
       }
 
     }
