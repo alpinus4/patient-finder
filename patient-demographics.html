@@ -70,6 +70,10 @@
         super();
       }
 
+      correct(){
+        this.dateOfBirth=this.dateOfBirth.substring(0,10);
+      }
+
     }
     customElements.define(PatientDemographics.is, PatientDemographics);
   </script>
