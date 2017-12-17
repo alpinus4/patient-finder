@@ -1,6 +1,3 @@
-# This is my patient demographics component
-Connected with this task: https://gitlab.com/librehealth/gci/issues/61
-
 # How to create the component?
 
   1. Firstly install polymer. Follow the instructions from [polymer site](https://www.polymer-project.org/2.0/docs/tools/polymer-cli#install)
