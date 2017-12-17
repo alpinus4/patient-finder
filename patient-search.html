@@ -2,7 +2,6 @@
 <link rel="import" href="patient-demographics.html">
 <link rel="import" href="https://polygit.org/polymer+v2.0.0/shadycss+webcomponents+1.0.0/components/iron-ajax/iron-ajax.html">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link rel="import" href="/bower_components/polymer/polymer.html">
 
 
 
@@ -31,7 +30,8 @@
     with-credentials="true"
     on-response="handleResponse"
     method="GET"
-    on-error="_error"></iron-ajax>
+    on-error="_error"
+    id="iron_ajax"></iron-ajax>
 
   </template>
 
@@ -48,6 +48,7 @@
           },
           sq:{
             type:String,
+            notify:true,
             observer: "_changedSQ"
           }
         }
@@ -72,7 +73,8 @@
       }
 
       _changedSQ(){
-        Polymer.dom(this.root).querySelector('iron-ajax').generateRequest();
+        console.log(this.$.iron_ajax.params);//Gives {"q":"James", "v":"full"}
+        this.$.iron_ajax.generateRequest();
       }
 
     }
