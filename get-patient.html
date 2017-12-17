@@ -24,8 +24,8 @@
 
     <iron-ajax
     auto
-    url="http://localhost:8080/lh-toolkit/ws/rest/v1/patient"
-    params='{"q":"Yennefer", "v":"full"}'
+    url="http://localhost:8080/lh-toolkit/ws/rest/v1/patient/1144f49d-f6c9-44b1-bd53-9574a2894883"
+    params='{"v":"full"}'
     content-type="application/json"
     handle-as="json"
     with-credentials="true"
@@ -44,6 +44,9 @@
         return {
           patient: {
             type: Array
+          },
+          uuid: {
+            type: String
           }
         }
       }
@@ -52,6 +55,7 @@
       }
       handleResponse(data){
         this.patient = data.detail.response.results;
+        console.log(this.patient);
       }
 
 

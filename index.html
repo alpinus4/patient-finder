@@ -8,8 +8,34 @@
     <link rel="import" href="patient-search.html">
     <title>Patient Demographics Component</title>
 
+    <script>
+
+    var newsq={
+      q:"",
+      v:"full"
+    };
+
+    function OpenDashboard(uuid){
+      console.log(uuid);
+      //search=document.getElementById("search").innerHTML= "<get-patient uuid='"+uuid+"'></get-patient>"
+    }
+
+    function NewSearchQuery(){
+      console.log("find");
+      newQuery=document.getElementById("searchQuery").value;
+      newsq.q=newQuery;
+      document.getElementById("search").sq = newsq;
+    }
+    </script>
+
   </head>
   <body>
-    <patient-search sq="James"></patient-search>
+
+
+      <input type="text" id="searchQuery">
+      <input type="button" value="Find" onclick="NewSearchQuery()"></br>
+
+      <patient-search id="search"></patient-search>
+      <!--<get-patient></get-patient>-->
   </body>
 </html>

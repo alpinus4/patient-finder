@@ -8,23 +8,15 @@
 <dom-module id="patient-search">
   <template>
 
-    <patient-demographics first-name="{{patient.0.person.preferredName.givenName}}"
-                          middle-name="{{patient.0.person.preferredName.middleName}}"
-                          last-name="{{patient.0.person.preferredName.familyName}}"
-                          age="{{patient.0.person.age}}"
-                          date-of-birth="{{patient.0.person.birthdate}}"
-                          gender="{{patient.0.person.gender}}"
-                          patientid="{{patient.0.identifiers.0.identifier}}"
-                          address="{{patient.0.person.preferredAddress.address1}}"
-                          city-village="{{patient.0.person.preferredAddress.cityVillage}}"
-                          state-province="{{patient.0.person.preferredAddress.stateProvince}}"
-                          country="{{patient.0.person.preferredAddress.country}}"
-                          telephone-number="500-500-5643"
-                          dead="{{patient.0.person.dead}}"></patient-demographics>
+    <template is="dom-repeat" items="[[patient]]">
+            <a href="#" onclick="OpenDashboard(this.value)" value="{{item.uuid}}">{{item.person.preferredName.givenName}}
+                                                                                  {{item.person.preferredName.middleName}}
+                                                                                  {{item.person.preferredName.familyName}}</a></br>
+        </template>
 
     <iron-ajax
     url="http://localhost:8080/lh-toolkit/ws/rest/v1/patient"
-    params='{"q":"{{sq}}", "v":"full"}'
+    params='{{sq}}'
     content-type="application/json"
     handle-as="json"
     with-credentials="true"
@@ -47,7 +39,7 @@
             notify:true
           },
           sq:{
-            type:String,
+            type:Object,
             notify:true,
             observer: "_changedSQ"
           }
@@ -56,6 +48,7 @@
       constructor() {
         super();
       }
+
       handleResponse(data){
         this.patient = data.detail.response.results;
         console.log(this.patient); //Gives empty array (length 0)
@@ -73,7 +66,7 @@
       }
 
       _changedSQ(){
-        console.log(this.$.iron_ajax.params);//Gives {"q":"James", "v":"full"}
+        console.log(this.$.iron_ajax.params);
         this.$.iron_ajax.generateRequest();
       }
 
