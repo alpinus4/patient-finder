@@ -19,6 +19,7 @@
         background: var(--patient-demographics-label-background , rgb(255, 255, 255));
         padding: 20px;
         font-family: 'Roboto', sans-serif;
+
       }
 
       :host #name{
@@ -28,14 +29,28 @@
         text-decoration-color: var(--patient-demographics-underline-color, rgb(0, 0, 0));
       }
 
+      :host #patientID{
+        width: 100%;
+        font-size: var(--patient-demographics-font-size-id , 20pt);
+        color: var(--patient-demographics-font-color-id , rgb(88, 88, 88));
+      }
+
+      :host #address, #phone{
+        width: auto;
+        font-size: var(--patient-demographics-font-size-address , 20pt);
+        color: var(--patient-demographics-font-color-address , rgb(38, 38, 38));
+      }
 
     </style>
 
 
     <!-- shadow DOM goes here -->
   <div id="patient_demographics">
-  <div id="name">{{firstName}}&nbsp;{{middleName}}&nbsp;{{lastName}}</div> {{age}} year(s) old
-  &nbsp;(<span id="birthdate">{{dateOfBirth}}</span>)&nbsp; <span id="gender">{{gender}}</span> </br></br>
+        <span id="patientID">Patient ID: {{patientid}}</span>
+    <div id="name">{{firstName}}&nbsp;{{middleName}}&nbsp;{{lastName}}</div>
+    {{age}} year(s) old &nbsp;(<span id="birthdate">{{dateOfBirth}}</span>)&nbsp; <span id="gender">{{gender}}</span> &nbsp; <span id="dead">{{deadInformation}}</span></br></br>
+    <div id="address"><b>Address:</b>  {{address}}, {{cityVillage}},  {{stateProvince}},  {{country}}</div>
+    <div id="phone"><b>Telephone number:</b> {{telephoneNumber}}</div>
   </div>
   </template>
 
@@ -66,25 +81,54 @@
             type: String,
             observer:'_correctGender'
           },
+          patientid: {
+            type: String
+          },
+          address: {
+            type: String
+          },
+          cityVillage: {
+            type:String
+          },
+          stateProvince: {
+            type: String
+          },
+          country: {
+            type: String
+          },
+          telephoneNumber: {
+            type: String
+          },
+          dead: {
+            type: Boolean,
+            observer:'_correctDead'
+          },
+          deadInformation: {
+            type: String
+          },
           genderObserverCount:{
             type:Number
           },
           dateOfBirthObserverCount:{
+            type:Number
+          },
+          deadObserverCount:{
             type:Number
           }
         }
       }
       constructor() {
         super();
-        this.genderObserverCount=0;
-        this.dateOfBirthObserverCount=0;
+        this.genderObserverCount = 0;
+        this.dateOfBirthObserverCount = 0;
+        this.deadObserverCount = 0;
       }
 
       _correctDate(){
-        if(this.dateOfBirthObserverCount<1){
+        if(this.dateOfBirthObserverCount < 1){
           this.dateOfBirthObserverCount++;
 
-          var date=new Date(this.dateOfBirth);
+          var date = new Date(this.dateOfBirth);
 
           //part of code from https://stackoverflow.com/questions/3605214/javascript-add-leading-zeroes-to-date
           var myDateString;
@@ -93,22 +137,34 @@
                + ('0' + (date.getMonth()+1)).slice(-2) + '/'
                + date.getFullYear();
 
-          this.dateOfBirth=myDateString;
+          this.dateOfBirth = myDateString;
         }
       }
 
 
       _correctGender(){
-        if(this.genderObserverCount<1){
+        if(this.genderObserverCount < 1){
           this.genderObserverCount++;
-          if(this.gender=="M"){
-            this.gender="Male";
+          if(this.gender == "M"){
+            this.gender = "Male";
           }
 
-          if(this.gender=="F"){
-            this.gender="Female";
+          if(this.gender == "F"){
+            this.gender = "Female";
           }
+        }
       }
+
+      _correctDead(){
+        if(this.deadObserverCount < 1){
+          this.deadObserverCount++;
+
+          if(this.dead == false){
+            this.deadInformation = "Alive"
+          }else{
+            this.deadInformation = "Dead"
+          }
+        }
       }
 
     }
