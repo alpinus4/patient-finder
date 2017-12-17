@@ -57,7 +57,7 @@ Connected with this task: https://gitlab.com/librehealth/gci/issues/61
         return {
           textToShow: {
             type: String
-          }
+          },
         }
       }
       constructor() {
@@ -75,12 +75,12 @@ Connected with this task: https://gitlab.com/librehealth/gci/issues/61
 ```html
 <link rel="import" href="your-component-name.html">
 ```
-  and this line to body:
+  and this line to body instead the "It works":
 ```html
-<your-component-name text-to-show:"test"></your-component-name>
+<your-component-name text-to-show="test"></your-component-name>
 ```
   7. Open your component in browser and you should see: 
   >I have to show this text: test
-
+  
   8. For more information about creating components you should go to [polymer site](https://www.polymer-project.org/2.0/start/)
 
