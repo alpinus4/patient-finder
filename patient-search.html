@@ -2,6 +2,7 @@
 <link rel="import" href="patient-demographics.html">
 <link rel="import" href="https://polygit.org/polymer+v2.0.0/shadycss+webcomponents+1.0.0/components/iron-ajax/iron-ajax.html">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="import" href="/bower_components/polymer/polymer.html">
 
 
 
@@ -23,9 +24,8 @@
                           dead="{{patient.0.person.dead}}"></patient-demographics>
 
     <iron-ajax
-    auto
     url="http://localhost:8080/lh-toolkit/ws/rest/v1/patient"
-    params='{"q":"[[sq]]", "v":"full"}'
+    params='{"q":"{{sq}}", "v":"full"}'
     content-type="application/json"
     handle-as="json"
     with-credentials="true"
@@ -44,10 +44,11 @@
         return {
           patient: {
             type: Array,
-            observer: "_test"
+            notify:true
           },
           sq:{
-            type:String
+            type:String,
+            observer: "_changedSQ"
           }
         }
       }
@@ -56,6 +57,7 @@
       }
       handleResponse(data){
         this.patient = data.detail.response.results;
+        console.log(this.patient); //Gives empty array (length 0)
       }
 
 
@@ -69,8 +71,8 @@
         console.log(event.detail.request.response);
       }
 
-      _test(){
-        console.log(this.patient[0].person.dead);
+      _changedSQ(){
+        Polymer.dom(this.root).querySelector('iron-ajax').generateRequest();
       }
 
     }
