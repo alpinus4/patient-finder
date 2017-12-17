@@ -1,5 +1,5 @@
-# My patient demographics component
-To this task: https://gitlab.com/librehealth/gci/issues/61
+# This is my patient demographics component
+Connected with this task: https://gitlab.com/librehealth/gci/issues/61
 
 # How to create the component?
 
