@@ -16,7 +16,7 @@
 
     <iron-ajax
     url="http://localhost:8080/lh-toolkit/ws/rest/v1/patient"
-    params='{{sq}}'
+    params='{{sqObj}}'
     content-type="application/json"
     handle-as="json"
     with-credentials="true"
@@ -39,8 +39,11 @@
             notify:true
           },
           sq:{
-            type:Object,
+            type:String,
             observer: "_changedSQ"
+          },
+          sqObj:{
+            type:Object
           }
         }
       }
@@ -66,12 +69,19 @@
       }
 
       _changedSQ(){
-        console.log("iron-ajax params:");
-        console.log(this.$.iron_ajax.params);
+        
+        this.sqObj = {
+          q:this.sq,
+          v:"full"
+        }
         this.$.iron_ajax.generateRequest();
       }
 
+
+
+
     }
     customElements.define(PatientSearch.is, PatientSearch);
+
   </script>
 </dom-module>
