@@ -14,11 +14,17 @@
 
     function OpenDashboard(uuid){
       console.log(uuid);
-      //search=document.getElementById("search").innerHTML= "<get-patient uuid='"+uuid+"'></get-patient>"
+      document.getElementById("searchDiv").innerHTML= "<get-patient uuid='"+uuid+"'></get-patient></br></br><input type='button' value='Back' onclick='BackToSearch()'>"
+    }
+
+    function BackToSearch(){
+      document.getElementById("searchDiv").innerHTML= "<input type='text' id='searchQuery'><input type='button' value='Find' onclick='NewSearchQuery()'></br><patient-search id='search'></patient-search>"
+      document.getElementById("searchQuery").value = newsq;
+      NewSearchQuery();
     }
 
     function NewSearchQuery(){
-      newsq = document.getElementById("searchQuery").value;      
+      newsq = document.getElementById("searchQuery").value;
       document.getElementById("search").sq = newsq;
     }
     </script>
@@ -26,11 +32,12 @@
   </head>
   <body>
 
-
+    <div id="searchDiv">
       <input type="text" id="searchQuery">
       <input type="button" value="Find" onclick="NewSearchQuery()"></br>
 
       <patient-search id="search"></patient-search>
-      <!--<get-patient></get-patient>-->
+
+    </div>
   </body>
 </html>
