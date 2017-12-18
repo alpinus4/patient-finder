@@ -40,7 +40,6 @@
           },
           sq:{
             type:Object,
-            notify:true,
             observer: "_changedSQ"
           }
         }
@@ -51,6 +50,7 @@
 
       handleResponse(data){
         this.patient = data.detail.response.results;
+        console.log("Get patient:");
         console.log(this.patient); //Gives empty array (length 0)
       }
 
@@ -66,6 +66,7 @@
       }
 
       _changedSQ(){
+        console.log("iron-ajax params:");
         console.log(this.$.iron_ajax.params);
         this.$.iron_ajax.generateRequest();
       }

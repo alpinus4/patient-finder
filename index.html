@@ -21,10 +21,10 @@
     }
 
     function NewSearchQuery(){
-      console.log("find");
-      newQuery=document.getElementById("searchQuery").value;
-      newsq.q=newQuery;
-      document.getElementById("search").sq = newsq;
+      newsq.q=document.getElementById("searchQuery").value;
+      document.getElementById("search").sq = newsq; //value is changed, but doesn't call observer method
+      console.log("AfterChange_sq_ValueInIndex:");
+      console.log(document.getElementById("search").sq); //gives correct value (object)
     }
     </script>
 
