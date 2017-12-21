@@ -88,5 +88,5 @@ You have to use iron-ajax component. To import iron-ajax add the following line:
 <link rel="import" href="https://polygit.org/polymer+v2.0.0/shadycss+webcomponents+1.0.0/components/iron-ajax/iron-ajax.html">
 ```
 For more information look at:
-http://frontendinsights.com/polymer-rest-api-using-iron-ajax/
+http://frontendinsights.com/polymer-rest-api-using-iron-ajax/ </br>
 https://www.webcomponents.org/element/PolymerElements/iron-ajax/elements/iron-ajax
