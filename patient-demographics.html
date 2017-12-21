@@ -1,5 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="https://polygit.org/polymer+v2.0.0/shadycss+webcomponents+1.0.0/components/iron-ajax/iron-ajax.html">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 <dom-module id="patient-demographics">
@@ -46,11 +47,26 @@
 
     <!-- shadow DOM goes here -->
   <div id="patient_demographics">
-        <span id="patientID">Patient ID: {{patientid}}</span>
-    <div id="name">{{firstName}}&nbsp;{{middleName}}&nbsp;{{lastName}}</div>
-    {{age}} year(s) old &nbsp;(<span id="birthdate">{{dateOfBirth}}</span>)&nbsp; <span id="gender">{{gender}}</span> &nbsp; <span id="dead">{{deadInformation}}</span></br></br>
-    <div id="address"><b>Address:</b>  {{address}}, {{cityVillage}},  {{stateProvince}},  {{country}}</div>
+        <span id="patientID">Patient ID: {{patient.identifiers.0.identifier}}</span>
+    <div id="name">{{patient.person.preferredName.givenName}}&nbsp;{{patient.person.preferredName.middleName}}&nbsp;{{patient.person.preferredName.familyName}}</div>
+    {{patient.person.age}} year(s) old &nbsp;(<span id="birthdate">{{patient.person.birthdate}}</span>)&nbsp;
+    <span id="gender">{{patient.person.gender}}</span> &nbsp; <span id="dead">{{patient.person.dead}}</span></br></br>
+    <div id="address"><b>Address:</b>  {{patient.person.preferredAddress.address1}}, {{patient.person.preferredAddress.cityVillage}},
+        {{patient.person.preferredAddress.stateProvince}},  {{patient.person.preferredAddress.country}}</div>
   </div>
+
+  <iron-ajax
+  url="{{url}}"
+  params='{"v":"full"}'
+  content-type="application/json"
+  handle-as="json"
+  with-credentials="true"
+  on-response="handleResponse"
+  method="GET"
+  on-error="_error"
+  id="iron_ajax"></iron-ajax>
+
+
   </template>
 
   <script>
@@ -60,114 +76,83 @@
       }
       static get properties() {
         return {
-          firstName: {
-            type: String
+          patient: {
+            type: Object
           },
-          middleName: {
-            type: String
-          },
-          lastName: {
-            type: String
-          },
-          age: {
-            type: String
-          },
-          dateOfBirth: {
+          uuid: {
             type: String,
-            observer:'_correctDate'
+            observer: "_changedUUID"
           },
-          gender: {
-            type: String,
-            observer:'_correctGender'
-          },
-          patientid: {
+          url: {
             type: String
-          },
-          address: {
-            type: String
-          },
-          cityVillage: {
-            type:String
-          },
-          stateProvince: {
-            type: String
-          },
-          country: {
-            type: String
-          },
-          telephoneNumber: {
-            type: String
-          },
-          dead: {
-            type: Boolean,
-            observer:'_correctDead'
-          },
-          deadInformation: {
-            type: String
-          },
-          genderObserverCount:{
-            type:Number
-          },
-          dateOfBirthObserverCount:{
-            type:Number
-          },
-          deadObserverCount:{
-            type:Number
           }
         }
       }
       constructor() {
         super();
-        this.genderObserverCount = 0;
-        this.dateOfBirthObserverCount = 0;
-        this.deadObserverCount = 0;
       }
 
-      _correctDate(){
-        if(this.dateOfBirthObserverCount < 1){
-          this.dateOfBirthObserverCount++;
-          
-          var date = new Date(this.dateOfBirth);
+      handleResponse(data){
+        var tmp_patient;
+        tmp_patient = data.detail.response;
 
-          //part of code from https://stackoverflow.com/questions/3605214/javascript-add-leading-zeroes-to-date
-          var myDateString;
-          date.setDate(date.getDate()+0);
-          myDateString = ('0' + date.getDate()).slice(-2) + '/'
-               + ('0' + (date.getMonth()+1)).slice(-2) + '/'
-               + date.getFullYear();
-
-          this.dateOfBirth = myDateString;
-        }
+        tmp_patient.person.dead = _correctDead(tmp_patient.person.dead);
+        tmp_patient.person.birthdate = _parseDate(tmp_patient.person.birthdate);
+        tmp_patient.person.gender = _correctGender(tmp_patient.person.gender);
+        this.patient = tmp_patient;
       }
 
-
-      _correctGender(){
-        if(this.genderObserverCount < 1){
-          this.genderObserverCount++;
-          if(this.gender == "M"){
-            this.gender = "Male";
-          }
-
-          if(this.gender == "F"){
-            this.gender = "Female";
-          }
-        }
+      _error(event){
+        console.log(event);
+        console.log(event.detail);
+        console.log(event.detail.error);
+        console.log(event.detail.error.message);
+        console.log(event.detail.request);
+        console.log(event.detail.response);
+        console.log(event.detail.request.response);
       }
 
-      _correctDead(){
-        if(this.deadObserverCount < 1){
-          this.deadObserverCount++;
-
-          if(this.dead == false){
-            this.deadInformation = "Alive"
-          }else{
-            this.deadInformation = "Dead"
-          }
-        }
+      _changedUUID(){
+        this.url = "http://localhost:8080/lh-toolkit/ws/rest/v1/patient/" + this.uuid;
+        this.$.iron_ajax.generateRequest();
       }
 
     }
     customElements.define(PatientDemographics.is, PatientDemographics);
+  </script>
+
+  <script>
+
+    function _correctDead(dead){
+      if(dead == false){
+        return "Alive";
+      }else{
+        return "Dead";
+      }
+    }
+
+    function _correctGender(gender){
+      if(gender == "M"){
+        return "Male";
+      }else if(gender == "F"){
+        return "Female";
+      }
+    }
+
+    function _parseDate(givenDate){
+      var date = new Date(givenDate);
+
+      //part of code from https://stackoverflow.com/questions/3605214/javascript-add-leading-zeroes-to-date
+      var myDateString;
+      date.setDate(date.getDate()+0);
+      myDateString = ('0' + date.getDate()).slice(-2) + '/'
+           + ('0' + (date.getMonth()+1)).slice(-2) + '/'
+           + date.getFullYear();
+
+      return myDateString;
+    }
+
+
   </script>
 
 </dom-module>
