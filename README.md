@@ -81,3 +81,12 @@
   
   8. For more information about creating components you should go to [polymer site](https://www.polymer-project.org/2.0/start/)
 
+# How to deal with rest api using polymer?
+
+You have to use iron-ajax component. To import iron-ajax add the following line:
+```html
+<link rel="import" href="https://polygit.org/polymer+v2.0.0/shadycss+webcomponents+1.0.0/components/iron-ajax/iron-ajax.html">
+```
+For more information look at:
+http://frontendinsights.com/polymer-rest-api-using-iron-ajax/
+https://www.webcomponents.org/element/PolymerElements/iron-ajax/elements/iron-ajax
