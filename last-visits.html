@@ -1,0 +1,132 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+<dom-module id="last-visits">
+
+  <template>
+
+    <style>
+      /* shadow DOM styles go here */
+      :host {
+        display: inline-block;
+        font-family: 'Roboto', sans-serif;
+        font-size: var(--last-visits-font-size , 20pt);
+        padding: 20px;
+      }
+
+      :host #header {
+        display: inline-block;
+        font-family: 'Roboto', sans-serif;
+        font-size: var(--last-visits-font-size-header , 30pt);
+      }
+
+    </style>
+
+
+    <!-- shadow DOM goes here -->
+    <div id="last-visits">
+      <div id="header">Last visits</div>
+      <template is="dom-repeat" items="[[visitsWithMatchingPatient]]">
+        <p>
+          <span>{{displayIndex(index)}}.</span>
+          Visit type: {{item.visitType.display}} </br>
+          Visit location: {{item.location.display}} </br>
+          Visit start time: {{item.startDatetime}} </br>
+          Visit end time: {{item.stopDatetime}} </br>
+        </p>
+      </template>
+    </div>
+
+
+    <iron-ajax
+    auto
+    url="http://localhost:8080/lh-toolkit/ws/rest/v1/visit"
+    params='{"v":"full"}'
+    content-type="application/json"
+    handle-as="json"
+    with-credentials="true"
+    on-response="handleResponse"
+    method="GET"
+    on-error="_error"
+    id="iron_ajax"></iron-ajax>
+
+  </template>
+
+  <script>
+    class LastVisits extends Polymer.Element {
+      static get is() {
+          return 'last-visits';
+      }
+      static get properties() {
+        return {
+          visits: {
+            type: Array
+          },
+          visitsWithMatchingPatient: {
+            type: Array
+          },
+          patientuuid: {
+            type: String
+          }
+        }
+      }
+
+      constructor() {
+        super();
+      }
+
+      handleResponse(data){
+        this.visits = data.detail.response.results;
+        this.visitsWithMatchingPatient = filterVisits(this.visits, this.patientuuid);
+
+        //delete visits above 5 index
+        this.visitsWithMatchingPatient.splice(5 , this.visitsWithMatchingPatient.length);
+
+        //parse dates
+        for (var i = 0; i < this.visitsWithMatchingPatient.length; i++) {
+          this.visitsWithMatchingPatient[i].startDatetime = parseDate(this.visitsWithMatchingPatient[i].startDatetime);
+          this.visitsWithMatchingPatient[i].stopDatetime = parseDate(this.visitsWithMatchingPatient[i].stopDatetime);
+        }
+
+      }
+
+      displayIndex(index){
+        return index + 1;
+      }
+
+    }
+    customElements.define(LastVisits.is, LastVisits);
+  </script>
+
+  <script>
+
+    function filterVisits(visits, patientuuid){
+
+      var tmp_visits=[];
+
+      for (var i = 0; i < visits.length; i++) {
+        if(visits[i].patient.uuid == patientuuid){
+          tmp_visits.push(visits[i]);
+        }
+      }
+      return tmp_visits;
+    }
+
+    function parseDate(givenDate){
+      var date = new Date(givenDate);
+
+      //part of code from https://stackoverflow.com/questions/3605214/javascript-add-leading-zeroes-to-date with added hours and minutes
+      var myDateString;
+      date.setDate(date.getDate()+0);
+      myDateString = ('0' + date.getDate()).slice(-2) + '/'
+           + ('0' + (date.getMonth()+1)).slice(-2) + '/'
+           + date.getFullYear() + '  '
+           + ('0' + (date.getHours()-1)).slice(-2) + ':'
+           + ('0' + date.getMinutes()).slice(-2);
+
+      return myDateString;
+    }
+
+  </script>
+
+</dom-module>

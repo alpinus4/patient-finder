@@ -9,10 +9,10 @@
   <template>
 
     <template is="dom-repeat" items="[[patient]]">
-            <a href="#" onclick="OpenDashboard(this.value)" value="{{item.uuid}}">{{item.person.preferredName.givenName}}
-                                                                                  {{item.person.preferredName.middleName}}
-                                                                                  {{item.person.preferredName.familyName}}</a></br>
-        </template>
+      <a href="#" onclick="OpenDashboard(this.value)" value="{{item.uuid}}">{{item.person.preferredName.givenName}}
+                                                                            {{item.person.preferredName.middleName}}
+                                                                            {{item.person.preferredName.familyName}}</a></br>
+    </template>
 
     <iron-ajax
     url="http://localhost:8080/lh-toolkit/ws/rest/v1/patient"

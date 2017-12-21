@@ -6,6 +6,7 @@
     <link rel="import" href="patient-demographics.html">
     <link rel="import" href="get-patient.html">
     <link rel="import" href="patient-search.html">
+    <link rel="import" href="last-visits.html">
     <title>Patient Demographics Component</title>
 
     <script>
@@ -14,7 +15,7 @@
 
     function OpenDashboard(uuid){
       console.log(uuid);
-      document.getElementById("searchDiv").innerHTML= "<get-patient uuid='"+uuid+"'></get-patient></br></br><input type='button' value='Back' onclick='BackToSearch()'>"
+      document.getElementById("searchDiv").innerHTML= "<get-patient uuid='"+uuid+"'></get-patient></br></br><last-visits patientuuid='"+uuid+"'></last-visits></br></br><input type='button' value='Back' onclick='BackToSearch()'>"
     }
 
     function BackToSearch(){
@@ -36,7 +37,8 @@
       <input type="text" id="searchQuery">
       <input type="button" value="Find" onclick="NewSearchQuery()"></br>
 
-      <patient-search id="search"></patient-search>
+      <patient-search id="search"></patient-search></br></br>
+
 
     </div>
   </body>
