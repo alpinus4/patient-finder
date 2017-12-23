@@ -3,13 +3,18 @@
   <head>
     <script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <link rel="import" href="patient-demographics.html">
     <link rel="import" href="patient-search.html">
     <link rel="import" href="last-visits.html">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Patient Demographics Component</title>
 
     <script>
@@ -17,11 +22,11 @@
     var newsq="";
 
     function OpenDashboard(uuid){
-      document.getElementById("searchDiv").innerHTML= "<patient-demographics uuid='"+uuid+"'></patient-demographics></br></br><last-visits patientuuid='"+uuid+"'></last-visits></br></br><input type='button' value='Back' onclick='BackToSearch()'>"
+      document.getElementById("searchDiv").innerHTML= "<patient-demographics uuid='"+uuid+"'></patient-demographics></br></br><last-visits patientuuid='"+uuid+"'></last-visits></br></br><button type='button' class='btn btn-default btn-lg' onclick='BackToSearch()'>Back</button>"
     }
 
     function BackToSearch(){
-      document.getElementById("searchDiv").innerHTML= "<input type='text' id='searchQuery'><input type='button' value='Find' onclick='NewSearchQuery()'></br><patient-search id='search'></patient-search>"
+      document.getElementById("searchDiv").innerHTML= '<form action="javascript:NewSearchQuery()" id="searchForm"><input type="text" id="searchQuery"><button type="submit" class="btn btn-default btn-lg" id="submit_btn"><span class="glyphicon glyphicon-search"></span></button></br><patient-search id="search"></patient-search></form></br></br>'
       document.getElementById("searchQuery").value = newsq;
       NewSearchQuery();
     }
@@ -36,11 +41,11 @@
   </head>
   <body>
 
-    <div id="searchDiv">
+    <div id="searchDiv" class="container">
 
       <form action="javascript:NewSearchQuery()" id="searchForm">
         <input type="text" id="searchQuery">
-        <input type="submit" value="Find"></br>
+        <button type="submit" class="btn btn-default btn-lg" id="submit_btn"><span class="glyphicon glyphicon-search"></span></button></br>
 
         <patient-search id="search"></patient-search>
      </form></br></br>

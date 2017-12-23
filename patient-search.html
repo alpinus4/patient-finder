@@ -8,13 +8,16 @@
 <dom-module id="patient-search">
   <template>
 
-    <template is="dom-repeat" items="[[patient]]" id="results">
-      <a href="#" onclick="OpenDashboard(this.value)" value="{{item.uuid}}">{{item.person.preferredName.givenName}}
-                                                                            {{item.person.preferredName.middleName}}
-                                                                            {{item.person.preferredName.familyName}}</a></br>
-    </template>
+    <ul class="list-group">
+      <template is="dom-repeat" items="[[patient]]" id="results">
+        <a class="list-group-item" href="#" onclick="OpenDashboard(this.value)" value="{{item.uuid}}">{{item.person.preferredName.givenName}}
+                                                                              {{item.person.preferredName.middleName}}
+                                                                              {{item.person.preferredName.familyName}}</a>
+      </template>
+      <li class="list-group-item" id="notFound" style="display:none;">No matching patients found.</li>
+    </ul>
 
-    <span id="notFound"></span>
+
 
     <iron-ajax
     url="http://localhost:8080/lh-toolkit/ws/rest/v1/patient"
@@ -58,9 +61,9 @@
 
 
         if(this.patient.length == 0){
-          this.$.notFound.innerHTML = "</br></br>No matching patients found."
+          this.$.notFound.style.display = "block";
         }else{
-          this.$.notFound.innerHTML = ""
+          this.$.notFound.style.display = "none";
         }
       }
 
