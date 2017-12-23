@@ -2,6 +2,10 @@
 <html>
   <head>
     <script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
 
     <link rel="import" href="patient-demographics.html">
     <link rel="import" href="patient-search.html">
@@ -26,18 +30,22 @@
       newsq = document.getElementById("searchQuery").value;
       document.getElementById("search").sq = newsq;
     }
+
     </script>
 
   </head>
   <body>
 
     <div id="searchDiv">
-      <input type="text" id="searchQuery">
-      <input type="button" value="Find" onclick="NewSearchQuery()"></br>
 
-      <patient-search id="search"></patient-search></br></br>
+      <form action="javascript:NewSearchQuery()" id="searchForm">
+        <input type="text" id="searchQuery">
+        <input type="submit" value="Find"></br>
 
+        <patient-search id="search"></patient-search>
+     </form></br></br>
 
     </div>
+
   </body>
 </html>

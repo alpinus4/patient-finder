@@ -8,11 +8,13 @@
 <dom-module id="patient-search">
   <template>
 
-    <template is="dom-repeat" items="[[patient]]">
+    <template is="dom-repeat" items="[[patient]]" id="results">
       <a href="#" onclick="OpenDashboard(this.value)" value="{{item.uuid}}">{{item.person.preferredName.givenName}}
                                                                             {{item.person.preferredName.middleName}}
                                                                             {{item.person.preferredName.familyName}}</a></br>
     </template>
+
+    <span id="notFound"></span>
 
     <iron-ajax
     url="http://localhost:8080/lh-toolkit/ws/rest/v1/patient"
@@ -53,6 +55,13 @@
 
       handleResponse(data){
         this.patient = data.detail.response.results;
+
+
+        if(this.patient.length == 0){
+          this.$.notFound.innerHTML = "</br></br>No matching patients found."
+        }else{
+          this.$.notFound.innerHTML = ""
+        }
       }
 
 
