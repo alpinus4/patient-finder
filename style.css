@@ -1,3 +1,18 @@
-body{
+body, #searchQuery{
   font-size: 15pt;
+}
+
+.form-control{
+  min-width: 0;
+    width: auto;
+    display: inline;
+ }
+
+ .fixed-panel {
+  height: calc(100vh - 5px);
+  overflow-y: auto;
+}
+
+#patientDashboard {
+  display:none;
 }

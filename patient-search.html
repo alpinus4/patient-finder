@@ -10,7 +10,7 @@
 
     <ul class="list-group">
       <template is="dom-repeat" items="[[patient]]" id="results">
-        <a class="list-group-item" href="#" onclick="OpenDashboard(this.value)" value="{{item.uuid}}">{{item.person.preferredName.givenName}}
+        <a class="list-group-item" href="#" onclick="OpenDashboard(this);" id="{{item.uuid}}">{{item.person.preferredName.givenName}}
                                                                               {{item.person.preferredName.middleName}}
                                                                               {{item.person.preferredName.familyName}}</a>
       </template>
@@ -88,10 +88,10 @@
       }
 
 
-
-
     }
     customElements.define(PatientSearch.is, PatientSearch);
 
   </script>
+
+
 </dom-module>
