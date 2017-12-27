@@ -1,0 +1,57 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<dom-module id="patient-image">
+
+  <template>
+
+    <style>
+      /* shadow DOM styles go here */
+      :host {
+        display: inline-block;
+      }
+
+    </style>
+
+
+    <!-- shadow DOM goes here -->
+    <img id='patientImage'>
+    <input type='file' accept='image/*' onchange='_openPatientImage(event)'><br>
+
+  </template>
+
+  <script>
+    class PatientImage extends Polymer.Element {
+      static get is() {
+          return 'patient-image';
+      }
+      static get properties() {
+        return {
+          patientuuid: {
+            type: String
+          }
+        }
+      }
+      constructor() {
+        super();
+      }
+
+
+      _openPatientImage(event){
+        var input = event.target;
+
+        var reader = new FileReader();
+        reader.onload = function(){
+          var dataURL = reader.result;
+
+          image.src = dataURL;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+
+    }
+    customElements.define(PatientImage.is, PatientImage);
+  </script>
+
+
+</dom-module>
