@@ -13,8 +13,12 @@
       }
 
       :host #header {
-        display: inline-block;
         font-size: var(--last-visits-font-size-header , 30pt);
+      }
+
+      :host #datetime{
+        font-size: var(--last-visits-font-size-datetime , 15pt);
+        color: var(--patient-demographics-font-color-datetime , rgb(88, 88, 88));
       }
 
     </style>
@@ -22,18 +26,44 @@
 
     <!-- shadow DOM goes here -->
     <div id="last-visits">
-      <div id="header">Last visits</div>
-      <template is="dom-repeat" items="[[visitsWithMatchingPatient]]">
-        <p>
-          <span>{{displayIndex(index)}}.</span>
-          Visit type: {{item.visitType.display}} </br>
-          Visit location: {{item.location.display}} </br>
-          Visit start time: {{item.startDatetime}} </br>
-          Visit end time: {{item.stopDatetime}} </br>
-        </p>
-      </template>
+      <div class="row">
+        <div class="col-sm-8">
+          <div id="header">Last visits</div></br>
+          <template is="dom-repeat" items="[[matchingVisits]]">
+            <p>
+              <span>{{displayIndex(index)}}.</span>
+              {{item.visitType.display}} </br>
+              {{item.location.display}} </br>
+              <span id="datetime">from {{item.startDatetime}} until {{item.stopDatetime}}</span> </br>
+            </p>
+          </template>
+        </div>
+
+        <div class="col-sm-4">
+          <div id="header">Last encounters</div></br>
+          <template is="dom-repeat" items="[[matchingEncounters]]">
+            <p>
+              <span>{{displayIndex(index)}}.</span>
+              {{item.encounterType.display}} </br>
+              {{item.location.display}} </br>
+              <span id="datetime">{{item.encounterDatetime}}</span> </br>
+            </p>
+          </template>
+        </div>
+      </div>
     </div>
 
+
+    <iron-ajax
+    url="http://localhost:8080/lh-toolkit/ws/rest/v1/encounter"
+    params='{{sqObj}}'
+    content-type="application/json"
+    handle-as="json"
+    with-credentials="true"
+    on-response="handleResponse_encounters"
+    method="GET"
+    on-error="_error"
+    id="iron_ajax_encounters"></iron-ajax>
 
     <iron-ajax
     auto
@@ -42,10 +72,9 @@
     content-type="application/json"
     handle-as="json"
     with-credentials="true"
-    on-response="handleResponse"
+    on-response="handleResponse_visits"
     method="GET"
-    on-error="_error"
-    id="iron_ajax"></iron-ajax>
+    on-error="_error"></iron-ajax>
 
   </template>
 
@@ -59,11 +88,21 @@
           visits: {
             type: Array
           },
-          visitsWithMatchingPatient: {
+          encounters: {
+            type: Array
+          },
+          matchingVisits: {
+            type: Array
+          },
+          matchingEncounters: {
             type: Array
           },
           patientuuid: {
-            type: String
+            type: String,
+            observer: "_changedPatientUUID"
+          },
+          sqObj:{
+            type:Object
           }
         }
       }
@@ -72,19 +111,46 @@
         super();
       }
 
-      handleResponse(data){
-        this.visits = data.detail.response.results;
-        this.visitsWithMatchingPatient = filterVisits(this.visits, this.patientuuid);
+      _changedPatientUUID(){
+        this.sqObj = {
+          patient:this.patientuuid,
+          v:"full"
+        }
+        this.$.iron_ajax_encounters.generateRequest();
+      }
 
-        //delete visits above 5 index
-        this.visitsWithMatchingPatient.splice(5 , this.visitsWithMatchingPatient.length);
+      handleResponse_encounters(data){
+        this.encounters = data.detail.response.results;
+        this.encounters = filterVisitsEncounters(this.encounters, this.patientuuid);
 
-        //parse dates
-        for (var i = 0; i < this.visitsWithMatchingPatient.length; i++) {
-          this.visitsWithMatchingPatient[i].startDatetime = parseDate(this.visitsWithMatchingPatient[i].startDatetime);
-          this.visitsWithMatchingPatient[i].stopDatetime = parseDate(this.visitsWithMatchingPatient[i].stopDatetime);
+        //delete encounters above 5 index
+        this.encounters.splice(5 , this.encounters.length);
+
+        //parse dates and correct encounter type
+        for (var i = 0; i < this.encounters.length; i++) {
+          this.encounters[i].encounterDatetime = parseDate(this.encounters[i].encounterDatetime);
+          this.encounters[i].encounterType.display = this.encounters[i].encounterType.display.toLowerCase();
+          this.encounters[i].encounterType.display = capitalizeFirstLetter(this.encounters[i].encounterType.display);
         }
 
+        this.matchingEncounters = this.encounters;
+      }
+
+
+      handleResponse_visits(data){
+        this.visits = data.detail.response.results;
+        this.visits = filterVisitsEncounters(this.visits, this.patientuuid);
+
+        //delete visits above 5 index
+        this.visits.splice(5 , this.visits.length);
+
+        //parse dates
+        for (var i = 0; i < this.visits.length; i++) {
+          this.visits[i].startDatetime = parseDate(this.visits[i].startDatetime);
+          this.visits[i].stopDatetime = parseDate(this.visits[i].stopDatetime);
+        }
+
+        this.matchingVisits = this.visits;
       }
 
       displayIndex(index){
@@ -97,7 +163,7 @@
 
   <script>
 
-    function filterVisits(visits, patientuuid){
+    function filterVisitsEncounters(visits, patientuuid){
 
       var tmp_visits=[];
 
@@ -122,6 +188,11 @@
            + ('0' + date.getMinutes()).slice(-2);
 
       return myDateString;
+    }
+
+    //part of code from https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
+    function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
   </script>
