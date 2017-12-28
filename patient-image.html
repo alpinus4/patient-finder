@@ -16,19 +16,22 @@
 
     <!-- shadow DOM goes here -->
     <img id='patientImage'>
-    <input type='file' accept='image/*' onchange='_openPatientImage(event)'><br>
+    <input type='file' accept='image/*' id='imageUpload'><br>
 
   </template>
 
   <script>
     class PatientImage extends Polymer.Element {
       static get is() {
-          return 'patient-image';
+        return 'patient-image';
       }
       static get properties() {
         return {
           patientuuid: {
             type: String
+          },
+          targetImg: {
+            type: Object
           }
         }
       }
@@ -36,15 +39,20 @@
         super();
       }
 
+      ready() {
+        super.ready();
+        this.targetImg = this.$.patientImage;
+        this.$.imageUpload.addEventListener('change', this._openPatientImage);
+      }
 
-      _openPatientImage(event){
+
+      _openPatientImage(event) {
         var input = event.target;
 
         var reader = new FileReader();
-        reader.onload = function(){
+        reader.onload = function() {
           var dataURL = reader.result;
-
-          image.src = dataURL;
+          this.targetImg.src = dataURL;
         };
         reader.readAsDataURL(input.files[0]);
       }
