@@ -9,35 +9,56 @@
     <style>
       /* shadow DOM styles go here */
       :host {
-        display: inline-block;
+        display: var(--patient-demographics-display , inline-block);
       }
 
       :host #patient_demographics{
         width: 100%;
         font-size: var(--patient-demographics-font-size , 25pt);
         color: var(--patient-demographics-font-color , rgb(24, 24, 24));
-        background: var(--patient-demographics-label-background , rgb(255, 255, 255));
-        padding: 20px;
+        background-color: var(--patient-demographics-background-color , rgb(255, 255, 255));
+        padding: var(--patient-demographics-padding, 20px);
 
       }
 
       :host #name{
         width: 91%;
         font-size: var(--patient-demographics-font-size-name , 40pt);
-        text-decoration: underline;
-        text-decoration-color: var(--patient-demographics-underline-color, rgb(0, 0, 0));
+        text-decoration: var(--patient-demographics-text-name-decoration , underline);
+        text-decoration-color: var(--patient-demographics-text-name-decoration-color, rgb(0, 0, 0));
+        display: var(--patient-demographics-display-name , inherit);
       }
 
       :host #patientID{
         width: 100%;
         font-size: var(--patient-demographics-font-size-id , 20pt);
         color: var(--patient-demographics-font-color-id , rgb(88, 88, 88));
+        display: var(--patient-demographics-display-id , inherit);
       }
 
-      :host #address, #phone{
+      :host #address{
         width: auto;
         font-size: var(--patient-demographics-font-size-address , 20pt);
         color: var(--patient-demographics-font-color-address , rgb(38, 38, 38));
+        display: var(--patient-demographics-display-address , inherit);
+      }
+
+      :host #gender{
+        font-size: var(--patient-demographics-font-size-gender , inherit);
+        color: var(--patient-demographics-font-color-gender , inherit);
+        display: var(--patient-demographics-display-gender , inherit);
+      }
+
+      :host #birthdate{
+        font-size: var(--patient-demographics-font-size-birthdate , inherit);
+        color: var(--patient-demographics-font-color-birthdate , inherit);
+        display: var(--patient-demographics-display-birthdate , inherit);
+      }
+
+      :host #dead{
+        font-size: var(--patient-demographics-font-size-dead , inherit);
+        color: var(--patient-demographics-font-color-dead , inherit);
+        display: var(--patient-demographics-display-dead , inherit);
       }
 
     </style>
@@ -45,8 +66,8 @@
 
     <!-- shadow DOM goes here -->
   <div id="patient_demographics">
-        <span id="patientID">Patient ID: {{patient.identifiers.0.identifier}}</span>
-    <div id="name">{{patient.person.preferredName.givenName}}&nbsp;{{patient.person.preferredName.middleName}}&nbsp;{{patient.person.preferredName.familyName}}</div>
+        <span id="patientID">Patient ID: {{patient.identifiers.0.identifier}} </br></span>
+    <div id="name">{{patient.person.preferredName.givenName}} {{patient.person.preferredName.middleName}} {{patient.person.preferredName.familyName}}</br></div>
     {{patient.person.age}} year(s) old &nbsp;(<span id="birthdate">{{patient.person.birthdate}}</span>)&nbsp;
     <span id="gender">{{patient.person.gender}}</span> &nbsp; <span id="dead">{{patient.person.dead}}</span></br></br>
     <div id="address"><b>Address:</b>  {{patient.person.preferredAddress.address1}}, {{patient.person.preferredAddress.cityVillage}},
@@ -136,7 +157,7 @@
         return "Female";
       }
     }
-    
+
     function _parseDate(givenDate){
       var date = new Date(givenDate);
 

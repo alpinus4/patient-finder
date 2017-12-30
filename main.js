@@ -1,7 +1,7 @@
 var newsq="";
 var activePatientBtn, theSameBtn, currentPage;
 
-function OpenDashboard(patientBtn){
+function ClickedItem(patientBtn){
   changeButtonActive(patientBtn);
   putContentAndShow();
 }

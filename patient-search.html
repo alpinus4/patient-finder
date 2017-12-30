@@ -8,9 +8,17 @@
 <dom-module id="patient-search">
   <template>
 
+    <style>
+    :host{
+      font-size: var(--patient-search-font-size , inherit);
+      color: var(--patient-search-font-color , inherit);
+      background-color: var(--patient-search-background-color , inherit);
+    }
+    </style>
+
     <ul class="list-group">
       <template is="dom-repeat" items="[[patient]]" id="results">
-        <a class="list-group-item" href="#" onclick="OpenDashboard(this);" id="{{item.uuid}}">{{item.person.preferredName.givenName}}
+        <a class="list-group-item" href="#" onclick="ClickedItem(this);" id="{{item.uuid}}">{{item.person.preferredName.givenName}}
                                                                               {{item.person.preferredName.middleName}}
                                                                               {{item.person.preferredName.familyName}}</a>
       </template>

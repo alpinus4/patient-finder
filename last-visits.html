@@ -6,47 +6,79 @@
 
     <style>
       /* shadow DOM styles go here */
-      :host {
-        display: inline-block;
-        font-size: var(--last-visits-font-size , 20pt);
-        padding: 20px;
+      :host #lastVisitsEncounters{
+        display: var(--last-visits-encounters-display , inline-block);
+        font-size: var(--last-visits-encounters-font-size , 20pt);
+        color: var(--last-visits-encounters-font-color , rgb(24, 24, 24));
+        background-color: var(--last-visits-encounters-background-color , rgb(255, 255, 255));
+        padding: var(--last-visits-encounters-padding , 20px);
       }
 
-      :host #header {
-        font-size: var(--last-visits-font-size-header , 30pt);
+      /*HEADER*/
+      :host .header {
+        font-size: var(--last-visits-encounters-font-size-header , 30pt);
+        color: var(--last-visits-encounters-font-color-header , inherit);
+        display: var(--last-visits-encounters-display-header , inherit);
       }
 
-      :host #datetime{
-        font-size: var(--last-visits-font-size-datetime , 15pt);
-        color: var(--patient-demographics-font-color-datetime , rgb(88, 88, 88));
+
+      /*INDEX*/
+      :host .index {
+        font-size: var(--last-visits-encounters-font-size-index , inherit);
+        color: var(--last-visits-encounters-font-color-index , inherit);
+        display: var(--last-visits-encounters-display-index , inherit);
+      }
+
+
+      /*TYPE*/
+      :host .type {
+        font-size: var(--last-visits-encounters-font-size-type , inherit);
+        color: var(--last-visits-encounters-font-color-type , inherit);
+        display: var(--last-visits-encounters-display-type , inherit);
+      }
+
+
+      /*LOCATION*/
+      :host .location {
+        font-size: var(--last-visits-encounters-font-size-location , inherit);
+        color: var(--last-visits-encounters-font-color-location , inherit);
+        display: var(--last-visits-encounters-display-location , inherit);
+      }
+
+
+      /*DATETIME*/
+      :host .datetime {
+        font-size: var(--last-visits-encounters-font-size-datetime , 15pt);
+        color: var(--last-visits-encounters-font-color-datetime , rgb(88, 88, 88));
+        display: var(--last-visits-encounters-display-datetime , inherit);
       }
 
     </style>
 
 
     <!-- shadow DOM goes here -->
-    <div id="last-visits">
+    <div id="lastVisitsEncounters">
       <div class="row">
         <div class="col-sm-8">
-          <div id="header">Last visits</div></br>
+          <div class="header">Last visits</div></br>
           <template is="dom-repeat" items="[[matchingVisits]]">
             <p>
-              <span>{{displayIndex(index)}}.</span>
-              {{item.visitType.display}} </br>
-              {{item.location.display}} </br>
-              <span id="datetime">from {{item.startDatetime}} until {{item.stopDatetime}}</span> </br>
+              <span class="index">{{displayIndex(index)}}.</span>
+              <span class="type">{{item.visitType.display}}</br></span>
+              <span class="location">{{item.location.display}}</br></span>
+              <span class="datetime">from {{item.startDatetime}} until {{item.stopDatetime}} </br></span>
             </p>
           </template>
         </div>
 
         <div class="col-sm-4">
-          <div id="header">Last encounters</div></br>
+          <div class="header">Last encounters</div></br>
           <template is="dom-repeat" items="[[matchingEncounters]]">
             <p>
-              <span>{{displayIndex(index)}}.</span>
-              {{item.encounterType.display}} </br>
-              {{item.location.display}} </br>
-              <span id="datetime">{{item.encounterDatetime}}</span> </br>
+              <span class="index">{{displayIndex(index)}}.</span>
+              <span class="type">{{item.encounterType.display}} </br></span>
+              <span class="location">{{item.location.display}} </br></span>
+              <span class="datetime">{{item.encounterDatetime}} </br></span>
             </p>
           </template>
         </div>
