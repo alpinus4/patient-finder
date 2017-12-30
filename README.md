@@ -1,6 +1,6 @@
 # How to use my components?
 Every component requires bootstrap 3.
-* #####Patient demographics component [ _patient-demographics.html_ ]</br>
+* <b>Patient demographics component [ _patient-demographics.html_ ]</b></br>
   To use it add the following line:
   ```html
   <patient-demographics uuid='there put patient uuid' id="patient_demographics_id"></patient-demographics>
@@ -48,7 +48,7 @@ Every component requires bootstrap 3.
   }
   ```
   </br>
-* #####Patient last visits/encounters component [ _last-visits.html_ ]</br>
+* <b>Patient last visits/encounters component [ _last-visits.html_ ]</b></br>
   To use it add the following line:
   ```html
   <last-visits patientuuid='there put patient uuid' id="last_visits_encounters_id"></last-visits>
@@ -90,7 +90,7 @@ Every component requires bootstrap 3.
   }
   ```
 
-* #####Patient search component [ _patient-search.html_ ]</br>
+* <b>Patient search component [ _patient-search.html_ ]</b></br>
     To use it add the following line:
     ```html
     <patient-search sq="put there search query" id="patient_search_id"></patient-search>
