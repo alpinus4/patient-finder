@@ -3,7 +3,7 @@ Every component requires bootstrap 3.
 * <b>Patient demographics component [ _patient-demographics.html_ ]</b></br>
   To use it add the following line:
   ```html
-  <patient-demographics uuid='there put patient uuid' id="patient_demographics_id"></patient-demographics>
+  <patient-demographics uuid='there put patient uuid' id="patient_demographics_id"/>
   ```
   This component also have some custom css properties presented below. Values inserted show default values.
   ```css
@@ -51,7 +51,7 @@ Every component requires bootstrap 3.
 * <b>Patient last visits/encounters component [ _last-visits.html_ ]</b></br>
   To use it add the following line:
   ```html
-  <last-visits patientuuid='there put patient uuid' id="last_visits_encounters_id"></last-visits>
+  <last-visits patientuuid='there put patient uuid' id="last_visits_encounters_id"/>
   ```
   This component also have some custom css properties presented below. Values inserted show default values.
   ```css
@@ -93,7 +93,7 @@ Every component requires bootstrap 3.
 * <b>Patient search component [ _patient-search.html_ ]</b></br>
     To use it add the following line:
     ```html
-    <patient-search sq="put there search query" id="patient_search_id"></patient-search>
+    <patient-search sq="put there search query" id="patient_search_id"/>
     ```
     Component will search and show you search results as bootstrap list group with linked items. Every list item has _onclick_ parameter, which calls following function.
     ```javascript

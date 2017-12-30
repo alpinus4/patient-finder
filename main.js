@@ -41,10 +41,10 @@ function setCheckCurrentPage(){
   var visits = document.getElementById("visitsPageBtn");
 
   if(demographics.classList.contains("active")){
-    currentPage = "<patient-demographics uuid='"+activePatientBtn.id+"'></patient-demographics>";
+    currentPage = "<patient-demographics uuid='"+activePatientBtn.id+"'/>";
     return "demographics";
   }else if(visits.classList.contains("active")){
-    currentPage = "<last-visits patientuuid='"+activePatientBtn.id+"'></last-visits>";
+    currentPage = "<last-visits patientuuid='"+activePatientBtn.id+"'/>";
     return "visits";
   }else{
     demographics.classList.add("active");
