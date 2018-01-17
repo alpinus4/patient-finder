@@ -1,5 +1,15 @@
+# How to run?
+1. #### Clone it via Git:
+```
+git clone https://github.com/alpinus4/patient-finder
+```
+2. #### Run `polymer serve --open` command (you must have installed polymer) in project location
+
+![](images/finder-screenshot-1.png?raw=true "Screenshot1")
+
+![](images/finder-screenshot-2.png?raw=true "Screenshot2")
+
 # How to use my components?
-Every component requires bootstrap 3.
 * <b>Patient demographics component [ _patient-demographics.html_ ]</b></br>
   To use it add the following line:
   ```html
