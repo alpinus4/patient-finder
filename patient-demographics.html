@@ -1,10 +1,11 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
-<link rel="import" href="https://polygit.org/polymer+v2.0.0/shadycss+webcomponents+1.0.0/components/iron-ajax/iron-ajax.html">
+<link rel="import" href="./bower_components/iron-ajax/iron-ajax.html">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <dom-module id="patient-demographics">
 
   <template>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <style>
       /* shadow DOM styles go here */
@@ -70,8 +71,13 @@
     <div id="name">{{patient.person.preferredName.givenName}} {{patient.person.preferredName.middleName}} {{patient.person.preferredName.familyName}}</br></div>
     {{patient.person.age}} year(s) old &nbsp;(<span id="birthdate">{{patient.person.birthdate}}</span>)&nbsp;
     <span id="gender">{{patient.person.gender}}</span> &nbsp; <span id="dead">{{patient.person.dead}}</span></br></br>
-    <div id="address"><b>Address:</b>  {{patient.person.preferredAddress.address1}}, {{patient.person.preferredAddress.cityVillage}},
-        {{patient.person.preferredAddress.stateProvince}},  {{patient.person.preferredAddress.country}}</div>
+    <template is="dom-if" if="{{patient.person.preferredAddress}}">
+      <div id="address"><b>Address:</b>  {{patient.person.preferredAddress.address1}}, {{patient.person.preferredAddress.cityVillage}},
+          {{patient.person.preferredAddress.stateProvince}},  {{patient.person.preferredAddress.country}}</div>
+    </template>
+    <template is="dom-if" if="{{!patient.person.preferredAddress}}">
+      <div id="address"><b>Address:</b> Unknown
+    </template>
   </div>
 
   <iron-ajax

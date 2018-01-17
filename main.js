@@ -1,9 +1,12 @@
 var newsq="";
 var activePatientBtn, theSameBtn, currentPage;
+var currentPatientId;
 
 function ClickedItem(patientBtn){
+  currentPatientId = patientBtn.id;
   changeButtonActive(patientBtn);
   putContentAndShow();
+  console.log("CURRENT PATIENT ID  "+patientBtn.id);
 }
 
 function changeButtonActive(patientBtn){
@@ -41,10 +44,10 @@ function setCheckCurrentPage(){
   var visits = document.getElementById("visitsPageBtn");
 
   if(demographics.classList.contains("active")){
-    currentPage = "<patient-demographics uuid='"+activePatientBtn.id+"'/>";
+    currentPage = "<patient-demographics uuid='"+currentPatientId+"'/>";
     return "demographics";
   }else if(visits.classList.contains("active")){
-    currentPage = "<last-visits patientuuid='"+activePatientBtn.id+"'/>";
+    currentPage = "<last-visits patientuuid='"+currentPatientId+"'/>";
     return "visits";
   }else{
     demographics.classList.add("active");

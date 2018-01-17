@@ -24,12 +24,10 @@
 
       <div id="searchDiv"  class="panel panel-default fixed-panel col-sm-4">
         <form action="javascript:NewSearchQuery()" id="searchForm">
-            Patient name:
-            <input type="text" id="searchQuery" class="form-control">
-            <button type="submit" class="btn btn-default btn-lg" id="submit_btn"><span class="glyphicon glyphicon-search"></span></button></br>
-
-            <patient-search id="searchResults"></patient-search>
-        </form>
+            <div id="searchTitle">Patient name:</div>
+            <input type="text" id="searchQuery" class="form-control"><button type="submit" class="btn btn-default btn-lg" id="submit_btn"><span class="glyphicon glyphicon-search"></span></button></br>
+        </form></br>
+        <patient-search id="searchResults"></patient-search>
       </div>
 
       <div id="patientDashboard" class="panel panel-default fixed-panel col-sm-8">

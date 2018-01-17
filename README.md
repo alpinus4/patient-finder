@@ -87,6 +87,10 @@ Every component requires bootstrap 3.
     --last-visits-encounters-font-size-datetime: 15pt;
     --last-visits-encounters-font-color-datetime: rgb(88, 88, 88);
     --last-visits-encounters-display-datetime: inherit; /*if you want to hide date time texts, change this property to none*/
+
+    /*NOT FOUND TEXT*/
+      --last-visits-encounters-font-size-not-found : inherit;
+      --last-visits-encounters-font-color-not-found : rgb(147, 4, 0);
   }
   ```
 

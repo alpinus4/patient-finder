@@ -1,8 +1,10 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="./bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="last-visits">
 
   <template>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <style>
       /* shadow DOM styles go here */
@@ -53,6 +55,13 @@
         display: var(--last-visits-encounters-display-datetime , inherit);
       }
 
+      /*NOT FOUND*/
+      :host .notFound {
+        font-size: var(--last-visits-encounters-font-size-not-found , inherit);
+        color: var(--last-visits-encounters-font-color-not-found , rgb(147, 4, 0));
+        margin-top: 10%;
+      }
+
     </style>
 
 
@@ -69,6 +78,11 @@
               <span class="datetime">from {{item.startDatetime}} until {{item.stopDatetime}} </br></span>
             </p>
           </template>
+          <template is="dom-if" if="{{!matchingVisits.0.visitType}}">
+            <div class="notFound">
+            Not found
+          </div>
+          </template>
         </div>
 
         <div class="col-sm-4">
@@ -80,6 +94,11 @@
               <span class="location">{{item.location.display}} </br></span>
               <span class="datetime">{{item.encounterDatetime}} </br></span>
             </p>
+          </template>
+          <template is="dom-if" if="{{!matchingEncounters.0.encounterType}}">
+            <div class="notFound">
+            Not found
+          </div>
           </template>
         </div>
       </div>

@@ -1,12 +1,16 @@
-body, #searchQuery{
+body, #searchQuery, #searchDiv{
   font-size: 15pt;
 }
 
-.form-control{
-  min-width: 0;
-    width: auto;
-    display: inline;
- }
+#searchQuery, #submit_btn  {
+  width: auto;
+  float: left;
+  margin: 10px 10px 10px 10px;
+}
+
+#searchForm {
+  padding: 10px;
+}
 
  .fixed-panel {
   height: calc(100vh - 5px);
@@ -15,4 +19,8 @@ body, #searchQuery{
 
 #patientDashboard {
   display:none;
+}
+
+#searchResults {
+  width: 100%;  
 }
